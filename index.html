@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>matt matter</title>
+    <title>Marco marcoer</title>
 </head>
 <body onload="load()" onunload="save()">
-    <h1>matts: <span id="sigmacount">0</span></h1> <h1 id="upgrtxt">Minion Shirt level: <span id="minoncount"></span:id></h1> <h1 id="totalm">Total matts: <span id="totalcount"></span></h1> <h1 id="totalerm">Totaler matts: <span id="totalercount"></span></h1> <h1 id="totalestm">Totalest matts: <span id="totalestcount"></span></h1> <h1>matts per matt: <span id="clicksper"></span></h1> <h1>Book comp wins: <span id="prestigecount">0</span></h1> <h1 id="rebirthtxt">Marijn Peeters rizz count: <span id="rebirths">0</span></h1>
-    <button id="upgrbtn" onclick="upgrade1()" style="position: absolute; top: 20%; left: 28.90625%; height: 36px; width: 20%;">Upgrade minion <span id="shirt">shirt</span> for <span id="upgrprice">10</span> matts</button>
+    <h1>marcos: <span id="sigmacount">0</span></h1> <h1 id="upgrtxt">Minion Shirt level: <span id="minoncount"></span:id></h1> <h1 id="totalm">Total marcos: <span id="totalcount"></span></h1> <h1 id="totalerm">Totaler marcos: <span id="totalercount"></span></h1> <h1 id="totalestm">Totalest marcos: <span id="totalestcount"></span></h1> <h1>marcos per marco: <span id="clicksper"></span></h1> <h1>Book comp wins: <span id="prestigecount">0</span></h1> <h1 id="rebirthtxt">Heidis rizzed: <span id="rebirths">0</span></h1>
+    <button id="upgrbtn" onclick="upgrade1()" style="position: absolute; top: 20%; left: 28.90625%; height: 36px; width: 20%;">Upgrade minion <span id="shirt">shirt</span> for <span id="upgrprice">10</span> marcos</button>
     <button id="autoupgr" onclick="toggleautoup()" style="position: absolute; top: 2%; left: 28.90625%; width: 40%; height: 7%">Toggle Auto Upgrade: <span id="autoupgrtxt">OFF</span></button>
     <button id="autoprstg" onclick="toggleauto()" style="position: absolute; top: 10%; left: 28.90625%; width: 40%; height: 7%">Toggle Auto Prestige: <span id="autoprstgtxt">OFF</span></button>
-    <button onclick="prestige()" style="position: absolute; top: 20%; left: 50%; width: 19%;">You can win book competition in <span id="prestigecost"></span> matts<br>Win = <span id="prestigeexponent">2</span>x matts</button><br><br>
+    <button onclick="prestige()" style="position: absolute; top: 20%; left: 50%; width: 19%;">You can win book competition in <span id="prestigecost"></span> marcos<br>Win = <span id="prestigeexponent">2</span>x marcos</button><br><br>
     <img src="https://defonkeling-skobos.nl/resize-image/f1280x740/schaaktoernooi_winters.jpeg" style="animation: rotation 2s infinite linear; position: absolute; left: 80%; width: 15%;" onclick="buttonclick()">
-    <img src="https://res.cloudinary.com/rsc/image/upload/b_rgb:FFFFFF,c_pad,dpr_2.625,f_auto,h_214,q_auto,w_380/c_pad,h_214,w_380/Y2805462-01?pgw=1" onclick="buttonclick()" class="button" style="position: absolute; width: 42.1875%; left: 28.90625%; top: 25%;">
+    <img src="marco.jpg" onclick="buttonclick()" class="button" style="position: absolute; width: 42.1875%; left: 28.90625%; top: 25%;">
     <div id="achievement" class="achievement-container" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9AjlmEtT9fNepoP6cWwx4gKnS045bCZ5dHg&s');"></div>
     <style>
         button {
@@ -299,7 +299,7 @@ function getPrestigeExponent() {
 function getUpgrade1Price() {
     return (Math.pow(1.1, Math.sqrt(player.upgrades))-1)*25 + 5 * (player.upgrades+1)
 }</script>
-    <button id="rebirthb" onclick="rebirth()" style="position: absolute; top: 75%; left: 28.90625%; height: 10%; width: 40.25%; font-size: 24px;">You can rizz up Marijn Peeters in <span id="rebirthcost">30</span> book comp wins</button>
+    <button id="rebirthb" onclick="rebirth()" style="position: absolute; top: 75%; left: 28.90625%; height: 10%; width: 40.25%; font-size: 24px;">You can rizz up heidi in <span id="rebirthcost">30</span> book comp wins</button>
     <h1 style="font-size: 40px;">Score: <span id="score">0</span></h1>
     <style>
         .particle {
