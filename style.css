@@ -1,0 +1,67 @@
+button {
+  border-radius: 40px;
+}
+
+.particle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background-color: #a52002;
+  border-radius: 50%;
+  opacity: 1;
+  animation: particle-animation 0.8s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes particle-animation {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(var(--x), var(--y)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.achievement-container {
+  position: fixed;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  width: 60%;
+  height: 60%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.4s ease-out, opacity 0.2s ease-in-out;
+}
+
+.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+body {
+  background: repeating-linear-gradient(135deg,
+      #a09f9e,
+      #a09f9e 10px,
+      rgb(145, 145, 145) 10px,
+      rgb(145, 145, 145) 20px);
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
