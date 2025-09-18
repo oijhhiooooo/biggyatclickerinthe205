@@ -178,39 +178,55 @@ setInterval(tick, 1000 / 60)
 function tick() {
 
 
-
+  // save patching
   player.prestiges = Math.max(player.prestiges, 0)
   player.rebirths = Math.max(player.rebirths, 0)
   player.totalclicks = Math.max(player.totalclicks + 0, player.clicks)
   player.totalerclicks = Math.max(player.totalerclicks + 0, player.totalclicks)
   player.totalestclicks = Math.max(player.totalestclicks + 0, player.totalerclicks)
+
+  // variable display
+
   document.getElementById("sigmacount").innerHTML = format(player.clicks)
   document.getElementById("totalcount").innerHTML = format(player.totalclicks)
   document.getElementById("totalercount").innerHTML = format(player.totalerclicks)
   document.getElementById("totalestcount").innerHTML = format(player.totalestclicks)
+
   document.getElementById("clicksper").innerHTML = format((player.upgrades + 1) * Math.pow(getPrestigeExponent(), player.prestiges + 0))
   document.getElementById("upgrprice").innerHTML = format(getUpgrade1Price())
+
   document.getElementById("prestigecount").innerHTML = player.prestiges.toFixed(0)
   document.getElementById("prestigecost").innerHTML = format(Math.max(getPrestigeCost() - player.totalclicks, 0))
   document.getElementById("rebirthcost").innerHTML = format(Math.max(getRebirthCost() - player.prestiges, 0))
   document.getElementById("prestigeexponent").innerHTML = Math.round(getPrestigeExponent() * 1000) / 1000
+
   document.getElementById("rebirths").innerHTML = player.rebirths.toFixed(0)
   document.getElementById("score").innerHTML = getscore().toFixed(2)
   document.getElementById("minoncount").innerHTML = format(player.upgrades, 0)
+
   document.getElementById("autoprstgtxt").innerHTML = autoprestige ? "ON" : "OFF"
   document.getElementById("autoupgrtxt").innerHTML = autoupgrade ? "ON" : "OFF"
+
+
   // hide "totalm" if upgrade is 0, prestige is 0, or rebirth is 0
+
   if (player.upgrades == 0 && player.prestiges == 0 && player.rebirths == 0) document.getElementById("totalm").style.display = "none"
   else document.getElementById("totalm").style.display = "block"
   if (player.upgrades == 0) document.getElementById("upgrtxt").style.display = "none"
   else document.getElementById("upgrtxt").style.display = "block"
+
   // hide "totalerm" if prestige is 0 or rebirth is 0
+
   if (player.prestiges == 0 && player.rebirths == 0) document.getElementById("totalerm").style.display = "none"
   else document.getElementById("totalerm").style.display = "block"
+
   // hide "totalestm" if rebirth is 0
+
   if (player.rebirths == 0) document.getElementById("totalestm").style.display = "none"
   else document.getElementById("totalestm").style.display = "block"
+
   // hide "rebirthb" if prestige < 30 and rebirth is 0
+
   if (player.rebirths == 0 && player.prestiges < 30) document.getElementById("rebirthb").style.display = "none"
   else document.getElementById("rebirthb").style.display = "block"
   if (player.rebirths == 0) document.getElementById("rebirthtxt").style.display = "none"
@@ -220,11 +236,11 @@ function tick() {
   if (player.prestiges >= 10) document.getElementById("autoupgr").style.display = "block"
   else document.getElementById("autoupgr").style.display = "none"
 
-
-
+  // automation
   if (autoprestige && player.rebirths >= 3) prestige()
   if (autoupgrade && player.prestiges >= 10) upgrade1()
 
+  // other stuff
   progressBar()
 
 }
@@ -242,6 +258,7 @@ function getRebCost(x) {
   return Math.ceil(30 + x * 5 / Math.pow(1.0075, x))
 }
 function getPrestigeExponent() {
+  // 11/12 is growth rate (lower = faster), approaches 0.625
   return 2 + (1 - Math.pow(11 / 12, player.rebirths)) * 0.625
 }
 function getUpgrade1Price() {
