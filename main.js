@@ -68,16 +68,21 @@ let displayedProgress = 0
 function progressBar() {
   progress = 0
 
-  if (player.prestiges < 1) {
-    progress = player.totalclicks / getPrestigeCost()
-  } else {
+  if (player.rebirths >= 1) {
     progress = Math.pow((player.prestiges + Math.min(getPrestigeProgress(), 1)) / getRebirthCost(), 0.7)
+  } else if (player.prestiges < 1) {
+    progress = player.totalclicks / getPrestigeCost()
+  } else if (player.prestiges < 10) {
+    progress = Math.pow((player.prestiges + Math.min(getPrestigeProgress(), 1)) / 10, 0.7)
+  } else {
+    progress = Math.pow((player.prestiges + Math.min(getPrestigeProgress(), 1) - 10) / (getRebirthCost() - 10), 0.7)
   }
 
 
   progress = Math.min(progress, 1)
+  if (displayedProgress == 0) displayedProgress = progress
 
-  displayedProgress -= (displayedProgress - progress) * 0.1
+  displayedProgress -= (displayedProgress - progress) * 0.035
   document.getElementById("progressbar").style.width = displayedProgress * 100 + "%"
 }
 
@@ -94,9 +99,13 @@ function load() {
   if (save.length < 4) player.totalclicks = player.clicks
 } 
 
+function getmarcogain() {
+  return (player.upgrades + 1) * Math.pow(getPrestigeExponent(), player.prestiges + 0) * (player.rebirths + 1 + 3 * Math.min(player.rebirths, 1) + 0.5 * Math.pow(player.rebirths, 2))
+}
+
 function buttonclick() {
   console.log("clicked") + getPrestigeCost().toString()
-  gain = (player.upgrades + 1) * Math.pow(getPrestigeExponent(), player.prestiges + 0) * (player.rebirths + 1)
+  gain = getmarcogain()
   player.clicks += gain
   player.totalclicks += gain
   player.totalerclicks += gain
@@ -132,7 +141,7 @@ function calculatetop(x) {
 }
 
 function upgrade1() {
-  if (player.clicks >= getUpgrade1Price()) { // 1% chance to change "shirt" to "shit", else change to shirt
+  if (player.clicks >= getUpgrade1Price()) { // 1.25% chance to change "shirt" to "shit", else change to shirt
     if (Math.random() < 0.0125) document.getElementById("shirt").innerHTML = "shit"
     else document.getElementById("shirt").innerHTML = "shirt"
   }
@@ -168,7 +177,7 @@ function rebirth() {
     player.clicks = 0
     player.totalclicks = 0
     player.upgrades = 0
-    player.prestiges = Math.floor(Math.max(player.prestiges / 1.5 - 30, 0))
+    player.prestiges = Math.floor(Math.max(player.prestiges / 1.5 - 25, 0))
     player.rebirths++
     player.totalerclicks = 0
   }
@@ -185,56 +194,6 @@ function tick() {
   player.totalerclicks = Math.max(player.totalerclicks + 0, player.totalclicks)
   player.totalestclicks = Math.max(player.totalestclicks + 0, player.totalerclicks)
 
-  // variable display
-
-  document.getElementById("sigmacount").innerHTML = format(player.clicks)
-  document.getElementById("totalcount").innerHTML = format(player.totalclicks)
-  document.getElementById("totalercount").innerHTML = format(player.totalerclicks)
-  document.getElementById("totalestcount").innerHTML = format(player.totalestclicks)
-
-  document.getElementById("clicksper").innerHTML = format((player.upgrades + 1) * Math.pow(getPrestigeExponent(), player.prestiges + 0))
-  document.getElementById("upgrprice").innerHTML = format(getUpgrade1Price())
-
-  document.getElementById("prestigecount").innerHTML = player.prestiges.toFixed(0)
-  document.getElementById("prestigecost").innerHTML = format(Math.max(getPrestigeCost() - player.totalclicks, 0))
-  document.getElementById("rebirthcost").innerHTML = format(Math.max(getRebirthCost() - player.prestiges, 0))
-  document.getElementById("prestigeexponent").innerHTML = Math.round(getPrestigeExponent() * 1000) / 1000
-
-  document.getElementById("rebirths").innerHTML = player.rebirths.toFixed(0)
-  document.getElementById("score").innerHTML = getscore().toFixed(2)
-  document.getElementById("minoncount").innerHTML = format(player.upgrades, 0)
-
-  document.getElementById("autoprstgtxt").innerHTML = autoprestige ? "ON" : "OFF"
-  document.getElementById("autoupgrtxt").innerHTML = autoupgrade ? "ON" : "OFF"
-
-
-  // hide "totalm" if upgrade is 0, prestige is 0, or rebirth is 0
-
-  if (player.upgrades == 0 && player.prestiges == 0 && player.rebirths == 0) document.getElementById("totalm").style.display = "none"
-  else document.getElementById("totalm").style.display = "block"
-  if (player.upgrades == 0) document.getElementById("upgrtxt").style.display = "none"
-  else document.getElementById("upgrtxt").style.display = "block"
-
-  // hide "totalerm" if prestige is 0 or rebirth is 0
-
-  if (player.prestiges == 0 && player.rebirths == 0) document.getElementById("totalerm").style.display = "none"
-  else document.getElementById("totalerm").style.display = "block"
-
-  // hide "totalestm" if rebirth is 0
-
-  if (player.rebirths == 0) document.getElementById("totalestm").style.display = "none"
-  else document.getElementById("totalestm").style.display = "block"
-
-  // hide "rebirthb" if prestige < 30 and rebirth is 0
-
-  if (player.rebirths == 0 && player.prestiges < 30) document.getElementById("rebirthb").style.display = "none"
-  else document.getElementById("rebirthb").style.display = "block"
-  if (player.rebirths == 0) document.getElementById("rebirthtxt").style.display = "none"
-  else document.getElementById("rebirthtxt").style.display = "block"
-  if (player.rebirths >= 3) document.getElementById("autoprstg").style.display = "block"
-  else document.getElementById("autoprstg").style.display = "none"
-  if (player.prestiges >= 10) document.getElementById("autoupgr").style.display = "block"
-  else document.getElementById("autoupgr").style.display = "none"
 
   // automation
   if (autoprestige && player.rebirths >= 3) prestige()
@@ -242,6 +201,7 @@ function tick() {
 
   // other stuff
   progressBar()
+  display()
 
 }
 
@@ -252,10 +212,10 @@ function getPrestigeCost() {
   return 2500 * Math.pow(Math.min(1.5 + (1.25 / 30) * player.prestiges, 2.75), player.prestiges) / Math.pow(1.2, Math.pow(player.rebirths, 0.6))
 }
 function getRebirthCost() {
-  return Math.ceil(30 + player.rebirths * 5 / Math.pow(1.0075, player.rebirths))
+  return getRebCost(player.rebirths)
 }
 function getRebCost(x) {
-  return Math.ceil(30 + x * 5 / Math.pow(1.0075, x))
+  return Math.ceil(30 + x * 5 / Math.pow(1.006, x))
 }
 function getPrestigeExponent() {
   // 11/12 is growth rate (lower = faster), approaches 0.625
