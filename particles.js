@@ -1,5 +1,5 @@
 
-const MAX_PARTICLES = 200; // Limit of particles on screen
+const MAX_PARTICLES = 300; // Limit of particles on screen
 let activeParticles = []; // Store active particles
 
 function spawnParticles(event) {
